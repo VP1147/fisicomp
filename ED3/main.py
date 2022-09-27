@@ -160,3 +160,12 @@ for i in range(0, 3):
 print(str(A[0][0])+"t^"+str(A[0][1])+
 	"î + "+str(A[1][0])+"t^"+str(A[1][1])+
 	"ĵ + "+str(A[2][0])+"t^"+str(A[2][1])+"k")
+
+# Teste: Derivada de função declarada
+
+def f(x):
+	return 2*x**2
+
+def df(dx):
+	h = 0.0001
+	return (f(x+h)-f(x))/h

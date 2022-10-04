@@ -1,30 +1,21 @@
-import tg.tg as tg				# https://github.com/VP1147/tg/blob/master/tg.py 
-from getch import getch
+import math
 
-tg.theme("tg/dark.json")
-tg.init(800, 25, 1)
-
+# Encontra as raízes 
 def f(x):
-	return x**3 -9*x + 3
+	return x**2
 
-global k
-def df(x): 								# df/dx
-	h = 0.0001							# lim x->0 
-	return (f(x+h)-f(x))/h
-	
+i = [-10, 10]
+interactions = 4
 
-def tangent(x):							# # y = m(x-a) + f(a)
-	m = df(x)
-	return m*(x-k) + f(k)
-
-p = 0.1
-interval = [-2, 2]
-
-tg.plot(f)
-
-k = interval[0]
-while k <= interval[1]:
-	tg.plot(tangent, [0, 50, 50])		# Tip: Varies the colour for each tangent line
-	k += p
-
-getch()
+for n in range(1, interactions+1):
+	p = math.sqrt(i[0]**2 +i[1]**2)/10		# Período
+	x = i[0]
+	print("--> Interação:", n, "- i:", i, "- p:", p)
+	while x <= i[1]:
+		# print(x)
+		if f(x-p)*f(x) < 0:
+			r += 1
+			print("--> Raiz entre", round(x, 2), "e",round(x-p, 2))
+			i = [x-p, x]
+			# print("x:",round(x, 2),"| f(x):",round(f(x), 2))
+		x += p

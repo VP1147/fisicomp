@@ -4,12 +4,11 @@ from getch import getch
 
 tg.theme("dark.json")
 
-# f(x) = x²
 def f(x):
-	return math.sin(x)
+	return x % math.pi*1/4*x
 
 i = [-10, 10]			# Intervalo de busca
-p = 1/100				# Período
+p = 1/100							# Período
 x = i[0]
 l = []
 while x <= i[1]:
@@ -20,7 +19,7 @@ while x <= i[1]:
 	x += p
 
 print(tg.Mkrs)
-tg.init(800, 20, math.pi)
+tg.init(800, 20, 1)
 tg.plot(f)
 
 getch()

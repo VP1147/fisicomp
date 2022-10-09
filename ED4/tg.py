@@ -42,6 +42,7 @@ def plot(Fx):
 					circle = gfx.Circle(ActualCord, 4)
 					circle.setFill(gfx.color_rgb(r,g,b)); circle.draw(Win)
 					mc+=1
+				elif Mkrs != 0 and Mkrs[mc] < Count: mc +=1
 			else: pass
 		except ValueError: 			pass
 		except OverflowError: 		pass

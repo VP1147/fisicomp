@@ -1,4 +1,5 @@
 import latexify
+import jupyter
 import math
 
 @latexify.function

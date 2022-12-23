@@ -1,4 +1,4 @@
-### P1 - Física Computacional 1
+### P2 - Física Computacional 1
 ### Aluno: Vinícius A. Pavão
 ### Curso: Engenharia Física - UFMS
 

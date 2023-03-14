@@ -1,0 +1,32 @@
+Materia : Fisica Computacional
+Professor : Marcos S.A.
+Aluno : Vinicius A. Pavao
+
+Conteudo :
+	
+	- Raizes reais de funcoes (FC1)
+	- Integracao e diferenciacao numericas
+	- Interpolacao Numerica
+		- Ajuste de curvas
+	- Sistemas Lineares
+		- Metodos interativos
+		- Teoremas de autovalor
+
+Media de aproveitamento : P1 + P2 + NTF + NED / 4  > 6.0
+	- TF : Trabalho Final - Entregar ao fim da disciplina
+	- ED : Estudos Dirigidos
+
+Datas Provaveis :
+	- P1 : 04/05
+	- P2 : 29/06
+	- TF : ate 27/06
+	- PO : 04/07
+
+Plataforma : AVA
+	- Materiais
+	- Atividades
+
+Bibliografia : 
+	- Calculo Numerico: Aspectos Teoricos e Computacionais 2a ED, 1996
+		(Rugeiero, M. A. G.; Lopes, Y. L. R.)
+

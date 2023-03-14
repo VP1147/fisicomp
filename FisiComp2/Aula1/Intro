@@ -1,0 +1,6 @@
+# Encontrando Raizes:
+# Isolamento de raiz
+
+def f(x):
+	return x**2 - 4
+

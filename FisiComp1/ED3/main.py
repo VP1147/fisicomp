@@ -146,7 +146,7 @@ V = [0,0,0]
 for i in range(0, 3):
 	V[i] = DerivPol(S[i][1], S[i][0]) # Calcula a derivada do monômio
 
-print(str(V[0][0])+"t^"+str(V[0][1])+
+	print(str(V[0][0])+"t^"+str(V[0][1])+
 	"î + "+str(V[1][0])+"t^"+str(V[1][1])+
 	"ĵ + "+str(V[2][0])+"t^"+str(V[2][1])+"k")
 

@@ -8,8 +8,13 @@ import graphics as gfx
 from getch import getch
 import math as m
 import time
+import platform
 
 def init(size, speed, sf):
+	print("Iniciando ...")
+	uname = platform.uname()
+	print(f"Sistema: {uname.system} {uname.node} {uname.release} {uname.version}\n")
+
 	global Win; global x; global y;					# Variaveis graficas
 	global G 										# Constantes fisicas
 	G = 6.67*10**-11								# N.m²/Kg²
@@ -77,6 +82,7 @@ def satellite(center, h, period, M):			# centro (x,y) | Altura em relacao
 		Y += (dy) * motion
 		#print(X)
 		#R += dx*h
+
 		time.sleep(dt)											# Variacao do tempo
 		sat.undraw()											# Apaga para o 
 																# prox. frame
@@ -98,7 +104,8 @@ planet("Terra", c, r, M)
 
 # Dados do satelite
 #h = 35786					# Km - geostacionario
-h = 408						# Km - ISS
+h = 408					# Km - ISS
+#h = 384000                 # Km - Lua
 
 a = (r + h)*1000 		# m
 T = 2*m.pi*m.sqrt( a**3 / (G*M))
@@ -112,4 +119,4 @@ print(" = {:.2f} h".format(T/3600))
 satellite(c, r + h, T, M)
 
 # Espera por uma entrada no console
-getch()
+win.promptClose(win.getWidth()/2, 30) # specify x, y coordinates of prompt

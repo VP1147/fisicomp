@@ -34,8 +34,8 @@ trapz(f, -1, 3, 4)
 
 def simpson(f, a, b, n):	# Integral de f(x) dx no intervalo [a, b]
 	i = 0  					# Contador de iteracoes
-	d = 0
 	h = (b-a)/n
+	d = a
 	S = 0
 	#print("\n>> Regra de 1/3 Simpson")
 	#print(">> h = {:.2f}, n = {:.2f}".format(h, n))

@@ -77,15 +77,26 @@ def satellite(center, h, period, M):			# centro (x,y) | Altura em relacao
 		sat.setFill(gfx.color_rgb(255,255,255))
 		sat.draw(Win)
 
-		Win.update() 											# Desenha frame
+		vt = gfx.Line(gfx.Point(m.cos(X)*height + center[0], m.sin(Y)*height + center[1]), gfx.Point(m.cos(X + 30*dx*motion)*height + center[0], m.sin(Y + 30*dy*motion)*height + center[1]))
+		vt.setArrow("last") 
+		vt.setFill(gfx.color_rgb(0,150,0))
+		vt.draw(Win)
+
+		fg = gfx.Line(gfx.Point(m.cos(X)*height + center[0], m.sin(Y)*height + center[1]), gfx.Point(m.cos(X + dx*motion)*height/(3/2) + center[0], m.sin(Y + dy*motion)*height/(3/2) + center[1]))
+		fg.setArrow("last") 
+		fg.setFill(gfx.color_rgb(0,0,150))
+		fg.draw(Win)
+
+		Win.update()											# Desenha frame
 		X += (dx) * motion
 		Y += (dy) * motion
 		#print(X)
 		#R += dx*h
-
 		time.sleep(dt)											# Variacao do tempo
 		sat.undraw()											# Apaga para o 
 																# prox. frame
+		vt.undraw()
+		fg.undraw()
 
 mv = 3600			# Fator de velocidade - Maior = mais rapido 
 					# (1 = tempo real)
@@ -94,29 +105,29 @@ sf = 50				# Fator de tamanho - Maior = maior `zoom`
 init(800, mv, sf)
 
 # Dados do Planeta (Terra)
-r = 6378 				# km
-M = 5.97*(10**24)  		# kg
+rt = 6378 				# km
+Mt = 5.97*(10**24)  		# kg
 
 c = [ x/2, y/2 ]		# Centro da janela: [ x/2, y/2 ]
 
 # Cria o planeta (Terra) com as dimensoes acima
-planet("Terra", c, r, M)
+#planet("Terra", c, r, M)
+planet("Marte", c, rt, Mt)
 
 # Dados do satelite
 #h = 35786					# Km - geostacionario
 h = 408					# Km - ISS
 #h = 384000                 # Km - Lua
 
-a = (r + h)*1000 		# m
-T = 2*m.pi*m.sqrt( a**3 / (G*M))
-print(M)
+a = (rt + h)*1000 		# m
+T = 2*m.pi*m.sqrt( a**3 / (G*Mt))
 print("T = {:d} seg".format(int(T)))
 print(" = {:.2f} h".format(T/3600))
 #T = 5
 
 # Cria um satelite com as caracteristicas acima
 # Note que r e M referem-se ao planeta orbitado
-satellite(c, r + h, T, M)
+satellite(c, rt + h, T, Mt)
 
 # Espera por uma entrada no console
 win.promptClose(win.getWidth()/2, 30) # specify x, y coordinates of prompt

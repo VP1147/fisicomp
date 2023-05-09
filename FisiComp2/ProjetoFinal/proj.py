@@ -40,24 +40,25 @@ def planet(name, center, radius, mass):		# Nome | Raio (km) | massa (kg)
 	label.setFill(gfx.color_rgb(0,0,0))
 	label.draw(Win)
 
-def satellite(center, h, period, M):			# centro (x,y) | Altura em relacao 
-												# ao CM (Km) | Periodo (s) | Massa (Kg)
+def satellite(center, smaj, smin, period, M):			# centro (x,y) | Semieixo Maior
+															# Semieixo Menor | Periodo (s) | Massa (Kg)
 	X = 0
 	Y = 0
-	height = h / size_factor					# Converte para a escala
+	smajor = smaj / size_factor					# Converte para a escala
+	sminor = smin / size_factor
 
-	desloc = 2*m.pi*h							# Deslocamento (circunferencia) - Km
+	desloc = 2*m.pi*smaj							# Deslocamento (circunferencia) - Km
 	mi = G*M 									# Standard gravitational parameter
 
 	R = 0
 	V = (desloc / period)						# Vel - km/s
 	Vh = (desloc / (period/3600))
 
-	a = 1
-	b = 1
+	h = smaj									# Altura = Semieixo Maior
+
+	a = h/smaj 								# = 1
+	b = 1 + h/smin
 	e = m.sqrt(1 - (b**2/a**2))
-	smajor = h*a 								# Semieixo maior
-	sminor = h*b  								# Semieixo menor
 
 	dt = 1/60 								# Variacoes de tempo (dt) e posicao (dx, dy)
 											# para cada frame (60 fps)
@@ -85,37 +86,25 @@ def satellite(center, h, period, M):			# centro (x,y) | Altura em relacao
 		satinfo.setFill(gfx.color_rgb(255,255,255))
 		satinfo.draw(Win)
 
-		sat = gfx.Circle(gfx.Point(a*m.cos(X)*height + height*(a*e**2) + center[0], b*m.sin(Y)*height + center[1]), 3)
+		sat = gfx.Circle(gfx.Point(a*m.cos(X)*smajor + smajor*(a*e**2) + center[0], b*m.sin(Y)*smajor + center[1]), 3)
 		sat.setFill(gfx.color_rgb(255,255,255))
 		sat.draw(Win)
 
-		vt = gfx.Line(gfx.Point(m.cos(X)*height + center[0], m.sin(Y)*height + center[1]), gfx.Point(m.cos(X + 30*dx*motion)*height + center[0], m.sin(Y + 30*dy*motion)*height + center[1]))
-		vt.setArrow("last") 
-		vt.setFill(gfx.color_rgb(0,150,0))
-		#vt.draw(Win)
-
-		fg = gfx.Line(gfx.Point(m.cos(X)*height + center[0], m.sin(Y)*height + center[1]), gfx.Point(m.cos(X + dx*motion)*height/(3/2) + center[0], m.sin(Y + dy*motion)*height/(3/2) + center[1]))
-		fg.setArrow("last") 
-		fg.setFill(gfx.color_rgb(0,0,150))
-		#fg.draw(Win)
-
-
-		Win.update()											# Desenha frame
-		X += (dx) * motion * (h/dc)
-		Y += (dy) * motion * (h/dc)
+		Win.update()
+													# Desenha frame
+		X += (dx) * motion * (smaj/dc)
+		Y += (dy) * motion * (smaj/dc)
 		#print(X)
 		#R += dx*h
 		#print("D = {:.4f} Km".format(dc))
 		time.sleep(dt)											# Variacao do tempo
 		sat.undraw()											# Apaga para o 
 																# prox. frame
-		#vt.undraw()
-		#fg.undraw()
 		satinfo.undraw()
 
-mv = 1			# Fator de velocidade - Maior = mais rapido 
+mv = 3600			# Fator de velocidade - Maior = mais rapido 
 						# (1 = tempo real)
-sf = 3				# Fator de tamanho - Maior = maior `zoom`
+sf = 300				# Fator de tamanho - Maior = maior `zoom`
 
 init(800, mv, sf)
 
@@ -123,15 +112,15 @@ init(800, mv, sf)
 rt = 6378 				# km
 Mt = 5.97*(10**24)  		# kg
 
-c = [ -2*x, y/2 ]		# Centro da janela: [ x/2, y/2 ]
+c = [ x/2, y/2 ]		# Centro da janela: [ x/2, y/2 ]
 
 # Cria o planeta (Terra) com as dimensoes acima
 planet("Terra", c, rt, Mt)
 #planet("Marte", c, rm, Mm)
 
 # Dados do satelite
-#h = 35786					# Km - geostacionario
-h = 408					# Km - ISS
+h = 35786					# Km - geostacionario
+#h = 408					# Km - ISS
 #h = 384000                 # Km - Lua
 
 a = (rt + h)*1000 		# m
@@ -142,7 +131,7 @@ print(" = {:.2f} h".format(T/3600))
 
 # Cria um satelite com as caracteristicas acima
 # Note que r e M referem-se ao planeta orbitado
-satellite(c, rt + h, T, Mt)
+satellite(c, rt + h, rt + h, T, Mt)
 
 # Espera por uma entrada no console
 win.promptClose(win.getWidth()/2, 30) # specify x, y coordinates of prompt

@@ -53,7 +53,7 @@ def satellite(center, h, period, M):			# centro (x,y) | Altura em relacao
 	V = (desloc / period)						# Vel - km/s
 	Vh = (desloc / (period/3600))
 
-	a = 3
+	a = 1
 	b = 1
 	e = m.sqrt(1 - (b**2/a**2))
 	smajor = h*a 								# Semieixo maior
@@ -113,9 +113,9 @@ def satellite(center, h, period, M):			# centro (x,y) | Altura em relacao
 		#fg.undraw()
 		satinfo.undraw()
 
-mv = 3600*60			# Fator de velocidade - Maior = mais rapido 
+mv = 1			# Fator de velocidade - Maior = mais rapido 
 						# (1 = tempo real)
-sf = 700				# Fator de tamanho - Maior = maior `zoom`
+sf = 3				# Fator de tamanho - Maior = maior `zoom`
 
 init(800, mv, sf)
 
@@ -123,15 +123,15 @@ init(800, mv, sf)
 rt = 6378 				# km
 Mt = 5.97*(10**24)  		# kg
 
-c = [ x/2, y/2 ]		# Centro da janela: [ x/2, y/2 ]
+c = [ -2*x, y/2 ]		# Centro da janela: [ x/2, y/2 ]
 
 # Cria o planeta (Terra) com as dimensoes acima
 planet("Terra", c, rt, Mt)
 #planet("Marte", c, rm, Mm)
 
 # Dados do satelite
-h = 35786					# Km - geostacionario
-#h = 408					# Km - ISS
+#h = 35786					# Km - geostacionario
+h = 408					# Km - ISS
 #h = 384000                 # Km - Lua
 
 a = (rt + h)*1000 		# m

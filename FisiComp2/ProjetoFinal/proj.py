@@ -56,9 +56,18 @@ def satellite(center, smaj, smin, period, M):			# centro (x,y) | Semieixo Maior
 
 	h = smaj									# Altura = Semieixo Maior
 
-	a = h/smaj 								# = 1
-	b = 1 + h/smin
-	e = m.sqrt(1 - (b**2/a**2))
+	a = 1
+	b = m.sqrt(smin/smaj)
+
+	print("a = {:.4f} | b = {:.4f}".format(a, b))
+	print(smaj)
+	print(smin)
+
+
+	try: e = m.sqrt(1 - (b**2/a**2))
+	except: e = 1 
+	print("e = {:.3f}".format(e))
+
 
 	dt = 1/60 								# Variacoes de tempo (dt) e posicao (dx, dy)
 											# para cada frame (60 fps)
@@ -73,10 +82,12 @@ def satellite(center, smaj, smin, period, M):			# centro (x,y) | Semieixo Maior
 																# execucao
 	while R <= desloc:
 
-		dc = m.sqrt((a*m.cos(X) + (a*e**2))**2 + (b*m.sin(Y))**2)*h
+		# Parametros instantaneos da orbita
+		dc = m.sqrt((a*m.cos(X)*smin + smaj*(e**2))**2 + ((b*m.sin(Y))*smaj)**2)
 		ag = mi/((dc*1000)**2)
-		Vi = m.sqrt( mi*((2/dc) - (1/smajor)) )
+		Vi = m.sqrt( abs(mi*((2/dc) - (1/smaj))) )
 
+		# Mostra os parametros
 		info = 		"V = "+str(round(Vi, 2))+" km/h\n"
 		info +=		"T = "
 		info +=		per
@@ -86,25 +97,27 @@ def satellite(center, smaj, smin, period, M):			# centro (x,y) | Semieixo Maior
 		satinfo.setFill(gfx.color_rgb(255,255,255))
 		satinfo.draw(Win)
 
-		sat = gfx.Circle(gfx.Point(a*m.cos(X)*smajor + smajor*(a*e**2) + center[0], b*m.sin(Y)*smajor + center[1]), 3)
+		# Desenha o satelite
+		sat = gfx.Circle(gfx.Point(a*m.cos(X)*sminor + smajor*(a*e**2) + center[0], b*m.sin(Y)*smajor + center[1]), 2)
 		sat.setFill(gfx.color_rgb(255,255,255))
 		sat.draw(Win)
-
-		Win.update()
 													# Desenha frame
 		X += (dx) * motion * (smaj/dc)
 		Y += (dy) * motion * (smaj/dc)
 		#print(X)
 		#R += dx*h
 		#print("D = {:.4f} Km".format(dc))
+
+		Win.update()
+
 		time.sleep(dt)											# Variacao do tempo
-		sat.undraw()											# Apaga para o 
-																# prox. frame
-		satinfo.undraw()
+
+		sat.undraw()											# Apaga para o 											# prox. frame
+		satinfo.undraw()										# prox. frame
 
 mv = 3600			# Fator de velocidade - Maior = mais rapido 
 						# (1 = tempo real)
-sf = 300				# Fator de tamanho - Maior = maior `zoom`
+sf = 100				# Fator de tamanho - Maior = maior `zoom`
 
 init(800, mv, sf)
 
@@ -119,8 +132,8 @@ planet("Terra", c, rt, Mt)
 #planet("Marte", c, rm, Mm)
 
 # Dados do satelite
-h = 35786					# Km - geostacionario
-#h = 408					# Km - ISS
+#h = 35786					# Km - geostacionario
+h = 1000					# Km - ISS
 #h = 384000                 # Km - Lua
 
 a = (rt + h)*1000 		# m
@@ -131,7 +144,7 @@ print(" = {:.2f} h".format(T/3600))
 
 # Cria um satelite com as caracteristicas acima
 # Note que r e M referem-se ao planeta orbitado
-satellite(c, rt + h, rt + h, T, Mt)
+satellite(c, rt + h, rt, T, Mt)
 
 # Espera por uma entrada no console
 win.promptClose(win.getWidth()/2, 30) # specify x, y coordinates of prompt

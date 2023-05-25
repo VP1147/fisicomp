@@ -55,7 +55,7 @@ while(i <= y[1]):
 
 # Desenha o grafico
 fig = plt.figure()
-plt.plot(X,Y, 'r')
+plt.plot(X,Y, 'r')start, stop
 plt.show()
 
 ## 2) (5,0 pontos) 

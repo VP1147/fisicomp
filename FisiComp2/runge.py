@@ -6,8 +6,10 @@
 ### Prof. Marcos Serrou do Amaral marcos.amaral@ufms.br
 
 import math as m
+import matplotlib.pyplot as plt
 
-def runge(f, fa, h, y0, xf):		# f(x, y) = dy/dx | h - tamanho das subdivisoes
+# Metodo de Runge-Kutta de 2a ordem
+def runge2(f, fa, h, y0, xf):		# f(x, y) = dy/dx | h - tamanho das subdivisoes
 									# 
 	xi = 0
 	x = xi							# Valores iniciais
@@ -45,4 +47,15 @@ xf = 7
 yi = 3
 h = 0.1
 
-runge(f, fa, h, yi, xf)
+# Definindo os eixos de acordo com a resolucao
+X, Y = runge2(f, fa, h, yi, xf)
+
+fig = plt.figure()
+
+# Linhas do eixo
+plt.axhline(color='black', lw=0.5)
+plt.axvline(color='black', lw=0.5)
+
+# Desenhando o grafico
+plt.plot(X, Y)
+plt.show()

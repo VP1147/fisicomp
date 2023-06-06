@@ -9,11 +9,10 @@ def Lk(x, k, n, xk = []):
 		j += 1
 	return L
 
-def lagrange(x, xk = [], yk = []):
+def lagrange(x, n, xk = [], yk = []):
 
 	P = 0
 	k = 0
-	n = 2
 	while k <= n:
 		P += yk[k] * Lk(x, k, n, xk)
 		print("k={:d}		xk={:.2f}	Lk={:.2f}".format(k, xk[k], Lk(x, k, n, xk)))
@@ -21,24 +20,28 @@ def lagrange(x, xk = [], yk = []):
 	print(P)
 	return P
 
-xk = [20, 25, 30]
-yk = [0.99907, 0.99852, 0.99826]
+xk = [-1, 0, 2]
+yk = [4, 1, -1]
 
-lagrange(25, xk, yk)
+lagrange(0, 2, xk, yk)
 
 
 import matplotlib.pyplot as plt
 
-xi = 15
-xf = 35
+xi = -3
+xf = 4
 yi = 0
 X = []
 Y = []
+
+n = 2
+
+h = 0.1 								# Densidade do gráfico
 while xi < xf: 
 	X.append(xi)
-	Y.append(lagrange(xi, xk, yk))
-	xi += 1
-	yi += 1
+	Y.append(lagrange(xi, n, xk, yk))
+	xi += h
+	yi += h
 
 
 fig = plt.figure()

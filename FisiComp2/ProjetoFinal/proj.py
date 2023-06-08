@@ -47,7 +47,7 @@ def satellite(center, smaj, smin, period, M):			# centro (x,y) | Semieixo Maior
 	smajor = smaj / size_factor					# Converte para a escala
 	sminor = smin / size_factor
 
-	desloc = 2*m.pi*smaj							# Deslocamento (circunferencia) - Km
+	desloc = 2*m.pi*smaj						# Deslocamento (circunferencia) - Km
 	mi = G*M 									# Standard gravitational parameter
 
 	R = 0
@@ -98,7 +98,7 @@ def satellite(center, smaj, smin, period, M):			# centro (x,y) | Semieixo Maior
 		satinfo.draw(Win)
 
 		# Desenha o satelite
-		sat = gfx.Circle(gfx.Point(a*m.cos(X)*sminor + smajor*(a*e**2) + center[0], b*m.sin(Y)*smajor + center[1]), 2)
+		sat = gfx.Circle(gfx.Point(a*m.cos(X)*smajor + smajor*(a*e**2) + center[0], b*m.sin(Y)*smajor + center[1]), 2)
 		sat.setFill(gfx.color_rgb(255,255,255))
 		sat.draw(Win)
 													# Desenha frame
@@ -115,7 +115,7 @@ def satellite(center, smaj, smin, period, M):			# centro (x,y) | Semieixo Maior
 		sat.undraw()											# Apaga para o 											# prox. frame
 		satinfo.undraw()										# prox. frame
 
-mv = 3600			# Fator de velocidade - Maior = mais rapido 
+mv = 3600				# Fator de velocidade - Maior = mais rapido 
 						# (1 = tempo real)
 sf = 100				# Fator de tamanho - Maior = maior `zoom`
 
@@ -133,10 +133,13 @@ planet("Terra", c, rt, Mt)
 
 # Dados do satelite
 #h = 35786					# Km - geostacionario
-h = 1000					# Km - ISS
+#h =  408					# Km - ISS
 #h = 384000                 # Km - Lua
 
-a = (rt + h)*1000 		# m
+semieixo_maior = 1000
+semieixo_menor = 0
+
+a = (rt + semieixo_maior)*1000 					# m
 T = 2*m.pi*m.sqrt( a**3 / (G*Mt))
 print("T = {:d} seg".format(int(T)))
 print(" = {:.2f} h".format(T/3600))
@@ -144,7 +147,7 @@ print(" = {:.2f} h".format(T/3600))
 
 # Cria um satelite com as caracteristicas acima
 # Note que r e M referem-se ao planeta orbitado
-satellite(c, rt + h, rt, T, Mt)
+satellite(c, rt + semieixo_maior, rt+ semieixo_menor, T, Mt)
 
 # Espera por uma entrada no console
 win.promptClose(win.getWidth()/2, 30) # specify x, y coordinates of prompt

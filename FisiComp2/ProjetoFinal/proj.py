@@ -83,10 +83,11 @@ def satellite(center, smaj, smin, period, M):			# centro (x,y) | Semieixo Maior
 	while R <= desloc:
 
 		# Parametros instantaneos da orbita
-		dc = m.sqrt((a*m.cos(X)*smin + smaj*(e**2))**2 + ((b*m.sin(Y))*smaj)**2)
+		dc = m.sqrt((a*m.cos(X)*smaj + smaj*(a*e**2))**2 + ((b*m.sin(Y))*smaj)**2)
 		ag = mi/((dc*1000)**2)
 		Vi = m.sqrt( abs(mi*((2/dc) - (1/smaj))) )
-
+		print( a*m.cos(X)*(smaj - smin) - m.cos(X + m.pi) )
+		
 		# Mostra os parametros
 		info = 		"V = "+str(round(Vi, 2))+" km/h\n"
 		info +=		"T = "

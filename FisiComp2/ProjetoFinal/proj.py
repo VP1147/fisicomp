@@ -44,6 +44,7 @@ def satellite(center, smaj, smin, period, M):			# centro (x,y) | Semieixo Maior
 															# Semieixo Menor | Periodo (s) | Massa (Kg)
 	X = 0
 	Y = 0
+
 	smajor = smaj / size_factor					# Converte para a escala
 	sminor = smin / size_factor
 
@@ -59,14 +60,12 @@ def satellite(center, smaj, smin, period, M):			# centro (x,y) | Semieixo Maior
 	a = 1
 	b = m.sqrt(smin/smaj)
 
-	print("a = {:.4f} | b = {:.4f}".format(a, b))
-	print(smaj)
-	print(smin)
-
+	print("Semieixo Maior = {:.2f} Km".format(smaj))
+	print("Semieixo Menor = {:.2f} Km".format(smin))
 
 	try: e = m.sqrt(1 - (b**2/a**2))
-	except: e = 1 
-	print("e = {:.3f}".format(e))
+	except: e = 1 							# Caso a = 0
+	print("e = {:.2f}".format(e))
 
 
 	dt = 1/60 								# Variacoes de tempo (dt) e posicao (dx, dy)
@@ -77,16 +76,16 @@ def satellite(center, smaj, smin, period, M):			# centro (x,y) | Semieixo Maior
 	if period/60 < 200: per = str(round(period/60, 2))+" min"		# Legenda
 	elif period/60 >= 200: per = str(round(period/3600,2))+" h"
 
-																# loop da orbita - segue 
+																# Loop de Orbita - segue 
 																# durante o resto da
-																# execucao
+																# execucao do codigo
 	while R <= desloc:
 
 		# Parametros instantaneos da orbita
 		dc = m.sqrt((a*m.cos(X)*smaj + smaj*(a*e**2))**2 + ((b*m.sin(Y))*smaj)**2)
 		ag = mi/((dc*1000)**2)
 		Vi = m.sqrt( abs(mi*((2/dc) - (1/smaj))) )
-		print( a*m.cos(X)*(smaj - smin) - m.cos(X + m.pi) )
+		#print( a*m.cos(X)*(smaj - smin) - m.cos(X + m.pi) )
 		
 		# Mostra os parametros
 		info = 		"V = "+str(round(Vi, 2))+" km/h\n"
@@ -108,7 +107,6 @@ def satellite(center, smaj, smin, period, M):			# centro (x,y) | Semieixo Maior
 		#print(X)
 		#R += dx*h
 		#print("D = {:.4f} Km".format(dc))
-
 		Win.update()
 
 		time.sleep(dt)											# Variacao do tempo
@@ -116,15 +114,17 @@ def satellite(center, smaj, smin, period, M):			# centro (x,y) | Semieixo Maior
 		sat.undraw()											# Apaga para o 											# prox. frame
 		satinfo.undraw()										# prox. frame
 
+## Inicio da execucao
+
 mv = 3600				# Fator de velocidade - Maior = mais rapido 
 						# (1 = tempo real)
-sf = 100				# Fator de tamanho - Maior = maior `zoom`
+sf = 50				# Fator de tamanho - Maior = maior `zoom`
 
 init(800, mv, sf)
 
 # Dados do Planeta (Terra)
 rt = 6378 				# km
-Mt = 5.97*(10**24)  		# kg
+Mt = 5.97*(10**24)  	# kg
 
 c = [ x/2, y/2 ]		# Centro da janela: [ x/2, y/2 ]
 
@@ -138,17 +138,14 @@ planet("Terra", c, rt, Mt)
 #h = 384000                 # Km - Lua
 
 semieixo_maior = 1000
-semieixo_menor = 0
+semieixo_menor = 411
 
-a = (rt + semieixo_maior)*1000 					# m
-T = 2*m.pi*m.sqrt( a**3 / (G*Mt))
-print("T = {:d} seg".format(int(T)))
-print(" = {:.2f} h".format(T/3600))
-#T = 5
+a = (rt + semieixo_maior)*1000 					# Semieixo Maior (metros)
+T = 2*m.pi*m.sqrt( a**3 / (G*Mt))				# Periodo (segundos)
 
 # Cria um satelite com as caracteristicas acima
 # Note que r e M referem-se ao planeta orbitado
-satellite(c, rt + semieixo_maior, rt+ semieixo_menor, T, Mt)
+satellite(c, rt + semieixo_maior, rt + semieixo_menor, T, Mt)
 
 # Espera por uma entrada no console
 win.promptClose(win.getWidth()/2, 30) # specify x, y coordinates of prompt

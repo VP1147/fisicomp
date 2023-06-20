@@ -11,20 +11,27 @@ import matplotlib.pyplot as plt
 def jacobi(A, B, x_0):				# A - Matriz (a_nxn)
 									# B - Matriz (b_n)
 									# x0 - Aprox. inicial
+	# Verifica o numero de linhas e colulas das matrizes dadas
 	for An in range(0, len(A)): An+=1
 	Bn = len(B)
 	if An != Bn: return 0
-	print("An = {:d}".format(An))
-	print("Bn = {:d}".format(Bn))
+	else: An = n
+	# Imprime a forma das matrizes na tela
+	print("A[{:d}x{:d}]".format(n, n))
+	print("B[{:d}x1]".format(n))
 
-	# C = 
+	# Calcula C
 	C = []
-	for i in range(0, An):
+	for i in range(0, n):
 		c = []
 		for j in range(0, An):
 			if i == j: c.append(0)
 			else: c.append(-A[i][j]/A[i][i])
 		C.append(c)
+	# Calcula g
+	g = []
+	for i in range(0, An):
+		
 
 A = [10, 2, 1], [1, 5, 1], [2, 3, 10]
 

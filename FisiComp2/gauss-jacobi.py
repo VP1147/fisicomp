@@ -7,37 +7,54 @@
 
 import math as m
 import matplotlib.pyplot as plt
+import numpy as np
 
 def jacobi(A, B, x_0):				# A - Matriz (a_nxn)
 									# B - Matriz (b_n)
 									# x0 - Aprox. inicial
+
 	# Verifica o numero de linhas e colulas das matrizes dadas
-	for An in range(0, len(A)): An+=1
-	Bn = len(B)
-	if An != Bn: return 0
-	else: An = n
-	# Imprime a forma das matrizes na tela
-	print("A[{:d}x{:d}]".format(n, n))
-	print("B[{:d}x1]".format(n))
+	A = np.array(A)
+	B = np.array(B)
+	x = np.array(x_0)
+	if len(A) == len(B) == len(x):
+		n = len(A)
+	else: return 0
 
 	# Calcula C
-	C = []
+	C = np.zeros((n, n))
 	for i in range(0, n):
-		c = []
-		for j in range(0, An):
-			if i == j: c.append(0)
-			else: c.append(-A[i][j]/A[i][i])
-		C.append(c)
+		for j in range(0, n):
+			if i == j: C[i][j] = 0
+			else: C[i][j] = (-A[i][j]/A[i][i])
 	# Calcula g
-	g = []
-	for i in range(0, An):
-		
+	g = np.zeros(n)
+	for i in range(0, n):
+		g[i] = (B[i]/A[i][i])
 
-A = [10, 2, 1], [1, 5, 1], [2, 3, 10]
+	#print(C)
+	#print(x_0)
+	#print(g)
+	x_f = np.array( C.dot(x) + g )
+	#print(x_f)
+	return x_f
 
-B = 7, -8, 6
 
-x_0 = 0.7, -1.6, 0.6
+A = np.array([[10, 2, 1], [1, 5, 1], [2, 3, 10]])
+
+B = np.array([7, -8, 6])
+
+x_0 = np.array([0.7, -1.6, 0.6])
 epsilon = 0.05
 
-jacobi(A, B, x_0)
+x = np.zeros(len(x_0))
+
+# 2) Resolvendo o sistema linear
+
+while abs(np.max(x) - np.max(x_0)) > epsilon:
+	x_0 = x
+	x = jacobi(A, B, x_0)
+	print(x)
+	print(abs(np.max(x) - np.max(x_0)))
+	#print(x_0)
+

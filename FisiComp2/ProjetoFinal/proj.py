@@ -40,7 +40,7 @@ def planet(name, center, radius, mass):		# Nome | Raio (km) | massa (kg)
 	label.setFill(gfx.color_rgb(0,0,0))
 	label.draw(Win)
 
-def satellite(center, smaj, smin, period, M, Rp):			# Centro (x,y) | Semieixo Maior (Km)
+def satellite(center, smaj, smin, M, Rp):			# Centro (x,y) | Semieixo Maior (Km)
 															# Semieixo Menor (Km)| Periodo (s)
 															# Massa do Planeta (Kg) | Raio do Planeta (km)
 	X = 0
@@ -51,6 +51,8 @@ def satellite(center, smaj, smin, period, M, Rp):			# Centro (x,y) | Semieixo Ma
 
 	desloc = 2*m.pi*smaj						# Deslocamento (circunferencia) - Km
 	mi = G*M 									# Standard gravitational parameter
+	smaj_m = smaj*1000 				# Semieixo Maior (metros)
+	period = 2*m.pi*m.sqrt( smaj_m**3 / mi)				# Periodo (segundos)
 
 	R = 0
 	V = (desloc / period)						# Vel - km/s
@@ -95,7 +97,7 @@ def satellite(center, smaj, smin, period, M, Rp):			# Centro (x,y) | Semieixo Ma
 		info +=		"\ng = "+str(round(ag, 2))+" m/s²\n"
 		info +=		"D = "+str(round(dc, 2))+" Km\n"
 		info +=		"h = "+str(round(dc-Rp, 2))+" Km"
-		satinfo = gfx.Text(gfx.Point(80, y-40), info)
+		satinfo = gfx.Text(gfx.Point(80, y-60), info)
 		satinfo.setFill(gfx.color_rgb(255,255,255))
 		satinfo.draw(Win)
 
@@ -135,20 +137,18 @@ planet("Terra", c, rt, Mt)
 #planet("Marte", c, rm, Mm)
 
 # Dados do satelite
-#h = 35786					# Km - geostacionario
+#h = 35786					# Km - geoestacionario
 #h =  408					# Km - ISS
 #h = 384000                 # Km - Lua
 
 semieixo_maior = 418
-semieixo_menor = 411
+semieixo_menor = 408
 
-a = (rt + semieixo_maior)*1000 					# Semieixo Maior (metros)
-T = 2*m.pi*m.sqrt( a**3 / (G*Mt))				# Periodo (segundos)
 
 # Cria um satelite com as caracteristicas acima
 # Note que r e M referem-se ao planeta orbitado
 
-satellite(c, rt + semieixo_maior, rt + semieixo_menor, T, Mt, rt)
+satellite(c, rt + semieixo_maior, rt + semieixo_menor, Mt, rt)
 
 # Espera por uma entrada no console
 win.promptClose(win.getWidth()/2, 30) # specify x, y coordinates of prompt
